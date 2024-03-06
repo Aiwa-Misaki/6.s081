@@ -133,6 +133,8 @@ found:
       release(&p->lock);
       return 0;
   }
+  p->usyscall->pid = p->pid;
+  printf("--------%d----------\n",p->usyscall->pid);
 
   // An empty user page table.
   p->pagetable = proc_pagetable(p);
@@ -207,7 +209,7 @@ proc_pagetable(struct proc *p)
   }
 
   // 映射 usyscall 页, 只读
-  if(mappages(pagetable, USYSCALL, PGSIZE, (uint64)(p->usyscall), PTE_R) < 0){
+  if(mappages(pagetable, USYSCALL, PGSIZE, (uint64)(p->usyscall), PTE_R|PTE_U) < 0){
       uvmunmap(pagetable, USYSCALL, 1, 0);
       uvmfree(pagetable,0);
       return 0;
