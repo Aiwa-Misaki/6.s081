@@ -134,7 +134,6 @@ found:
       return 0;
   }
   p->usyscall->pid = p->pid;
-  printf("--------%d----------\n",p->usyscall->pid);
 
   // An empty user page table.
   p->pagetable = proc_pagetable(p);
